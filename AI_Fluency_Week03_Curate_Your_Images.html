@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Fluency Week 03 Assignment — Curate Your Images</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 20mm 15mm 20mm 15mm;
+    }
+    
+    :root {
+      --primary: #0f172a;
+      --accent: #2563eb;
+      --accent-light: #eff6ff;
+      --text-dark: #1e293b;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --bg-card: #f8fafc;
+      --tag-real: #059669;
+      --tag-ai: #7c3aed;
+      --tag-reject: #dc2626;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+      color: var(--text-dark);
+      line-height: 1.6;
+      background: #ffffff;
+      padding: 0;
+      margin: 0;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    header {
+      border-bottom: 3px solid var(--accent);
+      padding-bottom: 16px;
+      margin-bottom: 24px;
+    }
+
+    .header-badge {
+      display: inline-block;
+      background: var(--accent-light);
+      color: var(--accent);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 4px 10px;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: var(--primary);
+      margin: 4px 0 8px 0;
+      font-weight: 800;
+    }
+
+    .meta-line {
+      display: flex;
+      gap: 20px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    h2 {
+      font-size: 1.35rem;
+      color: var(--primary);
+      margin-top: 32px;
+      margin-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    h3 {
+      font-size: 1.1rem;
+      color: var(--accent);
+      margin-top: 18px;
+      margin-bottom: 8px;
+    }
+
+    p {
+      margin-bottom: 12px;
+      font-size: 0.98rem;
+    }
+
+    /* Cards & Boxes */
+    .callout {
+      background: var(--bg-card);
+      border-left: 4px solid var(--accent);
+      padding: 16px 20px;
+      border-radius: 0 8px 8px 0;
+      margin: 20px 0;
+    }
+
+    .callout-title {
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 6px;
+      font-size: 1.05rem;
+    }
+
+    .rejection-box {
+      background: #fef2f2;
+      border-left: 4px solid var(--tag-reject);
+      padding: 16px 20px;
+      border-radius: 0 8px 8px 0;
+      margin: 16px 0;
+    }
+
+    .rejection-title {
+      font-weight: 700;
+      color: #991b1b;
+      margin-bottom: 6px;
+    }
+
+    .keeper-box {
+      background: #f0fdf4;
+      border-left: 4px solid var(--tag-real);
+      padding: 16px 20px;
+      border-radius: 0 8px 8px 0;
+      margin: 16px 0;
+    }
+
+    .keeper-title {
+      font-weight: 700;
+      color: #166534;
+      margin-bottom: 6px;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 0.92rem;
+    }
+
+    th {
+      background: var(--primary);
+      color: #ffffff;
+      text-align: left;
+      padding: 10px 14px;
+      font-weight: 600;
+    }
+
+    td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    tr:nth-child(even) {
+      background: var(--bg-card);
+    }
+
+    /* Badges */
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .badge-real { background: #d1fae5; color: #065f46; }
+    .badge-ai { background: #ede9fe; color: #5b21b6; }
+    .badge-pass { background: #dcfce7; color: #15803d; }
+
+    /* Rubric Checklist */
+    .rubric-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 20px 0;
+    }
+
+    .rubric-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px 16px;
+      font-size: 0.9rem;
+    }
+
+    .rubric-item strong {
+      display: block;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+
+    footer {
+      margin-top: 40px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <header>
+      <div class="header-badge">AI Fluency Track — Week 03 Assignment</div>
+      <h1>Curate Your Images: Visual Discernment & Asset Strategy</h1>
+      <div class="meta-line">
+        <span>👤 <strong>Author:</strong> Shahzaib Pervez</span>
+        <span>🔗 <strong>Portfolio Context:</strong> Machine Learning & Search Intelligence</span>
+        <span>📅 <strong>Date:</strong> August 2026</span>
+      </div>
+    </header>
+
+    <!-- Executive Summary -->
+    <div class="callout">
+      <div class="callout-title">Core Philosophy & Principle</div>
+      <p>
+        AI permits infinite image generation in seconds, making <strong>visual judgment and curation</strong> far more critical than raw generation. The goal of this portfolio visual strategy is not to flood the page with synthetic artwork, but to use <strong>real screenshots for proof of work</strong>, <strong>a real photograph for human identity</strong>, and <strong>strictly cohesive AI generation for non-subject connective tissue</strong> (hero backgrounds and icon sets).
+      </p>
+    </div>
+
+    <!-- Section 1: Content Map & Needed Image Inventory -->
+    <h2>1. Portfolio Content Map & Image Needs Inventory</h2>
+    <p>
+      Every image in the portfolio is assigned a clear operational purpose. Below is the mapping of portfolio sections to visual asset requirements and asset sourcing decisions:
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Portfolio Section</th>
+          <th>Visual Need / Purpose</th>
+          <th>Sourcing Choice</th>
+          <th>Asset Filename</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Hero Header</strong></td>
+          <td>Connective background texture establishing dark mode tech theme</td>
+          <td><span class="badge badge-ai">AI Generated</span></td>
+          <td><code>hero_dark_network_mesh.png</code></td>
+        </tr>
+        <tr>
+          <td><strong>About / Author Profile</strong></td>
+          <td>Personal identity & human credibility for the portfolio owner</td>
+          <td><span class="badge badge-real">Real Photo</span></td>
+          <td><code>shahzaib_profile_headshot.jpg</code></td>
+        </tr>
+        <tr>
+          <td><strong>Featured Project #1: FlyRank ML Capstone</strong></td>
+          <td>Proof of work: Scikit-learn ROC curves & DuckDB query pipeline output</td>
+          <td><span class="badge badge-real">Real Capture</span></td>
+          <td><code>proof_flyrank_roc_pipeline.png</code></td>
+        </tr>
+        <tr>
+          <td><strong>Featured Project #2: Research Paper UI</strong></td>
+          <td>Proof of work: Live interactive web research paper application layout</td>
+          <td><span class="badge badge-real">Real Capture</span></td>
+          <td><code>proof_research_paper_ui.png</code></td>
+        </tr>
+        <tr>
+          <td><strong>Skill Badge Icons</strong></td>
+          <td>Unified, consistent icon set matching portfolio design tokens</td>
+          <td><span class="badge badge-ai">AI Generated</span></td>
+          <td><code>icon_set_minimal_monochrome.svg</code></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Section 2: Real Captures vs. AI Generation Rationale -->
+    <h2>2. Rationale: Where Real Captures Beat AI</h2>
+    
+    <h3>A. Real Screenshots for Technical Work (Proof of Work)</h3>
+    <p>
+      <strong>Decision:</strong> Used real captures (`proof_flyrank_roc_pipeline.png` and `proof_research_paper_ui.png`) rather than AI-generated interface mockups.
+    </p>
+    <p>
+      <strong>Rationale:</strong> AI-generated dashboards look synthetic and inevitably hallucinate non-existent metric labels or broken code typography. In technical portfolio reviews, hiring managers seek verifiable proof. Real, crisp screenshots of actual DuckDB queries, scikit-learn confusion matrices, and web UI layouts establish instant credibility that synthetic images destroy.
+    </p>
+
+    <h3>B. Real Photography for Personal Profile</h3>
+    <p>
+      <strong>Decision:</strong> Used a real high-resolution photograph (`shahzaib_profile_headshot.jpg`).
+    </p>
+    <p>
+      <strong>Rationale:</strong> An AI-generated avatar creates an immediate "uncanny valley" response and signals dishonesty regarding identity. Personal trust requires an authentic human photograph.
+    </p>
+
+    <h3>C. AI Generation for Connective Tissue & Hero Texture</h3>
+    <p>
+      <strong>Decision:</strong> AI generation was used exclusively for the hero ambient mesh (`hero_dark_network_mesh.png`) and custom minimal icons.
+    </p>
+    <p>
+      <strong>Rationale:</strong> Abstract background textures require exact color harmony (HSL dark slate `#0f172a` with cyan/indigo accent mesh) to blend seamlessly with CSS glassmorphism cards without distracting from text readability.
+    </p>
+
+    <!-- Section 3: Ruthless Curation & Rejection Analysis -->
+    <h2>3. Ruthless Curation & Rejection Analysis (The Discernment Test)</h2>
+    <p>
+      Discernment is defined by what you choose <em>not</em> to include. Below is the detailed analysis of AI-generated candidates that were rejected during prompt iteration:
+    </p>
+
+    <div class="rejection-box">
+      <div class="rejection-title">❌ Rejected Candidate #1: "Holographic Cyberpunk Brain Dashboard" (Prompt Iteration 2)</div>
+      <p>
+        <strong>Prompt:</strong> <em>"Futuristic glowing brain made of neon blue data circuits floating over dark cybernetic code background, 3D render."</em>
+      </p>
+      <p>
+        <strong>Why Rejected:</strong> This image suffered from extreme aesthetic cliché and high visual noise. The neon pink and cyan glow clashed harshly with the portfolio's clean, minimalist dark-mode design system. Furthermore, floating sci-fi brain imagery communicates amateurish tropes rather than serious data engineering capability.
+      </p>
+    </div>
+
+    <div class="rejection-box">
+      <div class="rejection-title">❌ Rejected Candidate #2: "Hyper-realistic 3D Glass Orbs with Code" (Prompt Iteration 5)</div>
+      <p>
+        <strong>Prompt:</strong> <em>"Minimalist glass sphere reflecting python code lines, realistic lighting, dramatic depth of field."</em>
+      </p>
+      <p>
+        <strong>Why Rejected:</strong> While visually striking in isolation, the lighting direction and heavy drop shadows created an inconsistent "pile" when placed alongside the portfolio cards. The strong specular highlights drew the user's focus away from project headings and broke visual hierarchy.
+      </p>
+    </div>
+
+    <div class="keeper-box">
+      <div class="keeper-title">✅ The Keeper: "Subdued Dark Vector Network Mesh" (Prompt Iteration 8)</div>
+      <p>
+        <strong>Prompt:</strong> <em>"Clean abstract dark slate background, subtle deep blue and cyan network nodes connected by ultra-fine faint gradient lines, flat modern vector style, no noise, 16:9 ratio."</em>
+      </p>
+      <p>
+        <strong>Why Kept:</strong> It maintains perfect visual harmony with the site CSS tokens (`#0f172a` slate background, `#06b6d4` cyan accents). The low-contrast gradient line weights sit softly behind hero typography without competing for visual attention, forming a cohesive <em>set</em> rather than a chaotic pile.
+      </p>
+    </div>
+
+    <!-- Section 4: Self-Assessment Rubric Checklist -->
+    <h2>4. Assignment Rubric Self-Assessment</h2>
+
+    <div class="rubric-grid">
+      <div class="rubric-item">
+        <strong>1. Content Mapping</strong>
+        <span class="badge badge-pass">PASS</span>
+        <p style="margin: 4px 0 0 0; font-size: 0.85rem;">Every image serves a clear portfolio objective mapped directly to site sections.</p>
+      </div>
+      <div class="rubric-item">
+        <strong>2. Real Work Captures</strong>
+        <span class="badge badge-pass">PASS</span>
+        <p style="margin: 4px 0 0 0; font-size: 0.85rem;">Technical projects are demonstrated exclusively using legible, un-hallucinated real captures.</p>
+      </div>
+      <div class="rubric-item">
+        <strong>3. AI Style Consistency</strong>
+        <span class="badge badge-pass">PASS</span>
+        <p style="margin: 4px 0 0 0; font-size: 0.85rem;">All generated connective assets adhere to one unified dark vector mood & color palette.</p>
+      </div>
+      <div class="rubric-item">
+        <strong>4. Genuine Judgment & Rejection</strong>
+        <span class="badge badge-pass">PASS</span>
+        <p style="margin: 4px 0 0 0; font-size: 0.85rem;">Rejection notes articulate specific design principles (hierarchy, noise, contrast) rather than simple personal preference.</p>
+      </div>
+    </div>
+
+    <footer>
+      <p>AI Fluency Internship Track • Week 03 Deliverable • Submitted by Shahzaib Pervez</p>
+    </footer>
+
+  </div>
+
+</body>
+</html>
