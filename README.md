@@ -5,7 +5,7 @@ This repository contains the complete, end-to-end Machine Learning Capstone for 
 ## 🚀 Deployed Research Paper
 
 The capstone is published as a deployed, interactive web research paper:
-- **Public Research Paper URL**: Listed in `submission/paper_url.txt` (`https://shahzaibpervez54.github.io/flyrank-search-intelligence-capstone/`)
+- **Public Research Paper URL**: Listed in `submission/paper_url.txt` (`https://shahzaib-pervez.github.io/flyrank-ml-internship/`)
 - **Live Local Paper**: Open `index.html` in any web browser.
 
 ---
