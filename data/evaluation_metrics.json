@@ -1,0 +1,70 @@
+{
+  "Rule_Based_Baseline": {
+    "ROC_AUC": 0.9398,
+    "PR_AUC": 0.9691,
+    "F1_Score": 1.0,
+    "Precision": 1.0,
+    "Recall": 1.0,
+    "Confusion_Matrix": [
+      [
+        245,
+        0
+      ],
+      [
+        0,
+        255
+      ]
+    ]
+  },
+  "Logistic_Regression": {
+    "ROC_AUC": 1.0,
+    "PR_AUC": 1.0,
+    "F1_Score": 1.0,
+    "Precision": 1.0,
+    "Recall": 1.0,
+    "Confusion_Matrix": [
+      [
+        245,
+        0
+      ],
+      [
+        0,
+        255
+      ]
+    ]
+  },
+  "Random_Forest": {
+    "ROC_AUC": 1.0,
+    "PR_AUC": 1.0,
+    "F1_Score": 1.0,
+    "Precision": 1.0,
+    "Recall": 1.0,
+    "Confusion_Matrix": [
+      [
+        245,
+        0
+      ],
+      [
+        0,
+        255
+      ]
+    ]
+  },
+  "Hist_Gradient_Boosting": {
+    "ROC_AUC": 0.9999,
+    "PR_AUC": 0.9999,
+    "F1_Score": 0.998,
+    "Precision": 0.9961,
+    "Recall": 1.0,
+    "Confusion_Matrix": [
+      [
+        244,
+        1
+      ],
+      [
+        0,
+        255
+      ]
+    ]
+  }
+}

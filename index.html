@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search Intelligence Capstone — Content Refresh Opportunity Scoring Model</title>
+  <meta name="description" content="Research paper on machine learning content opportunity scoring for search performance optimization using the FlyRank search intelligence dataset.">
+  
+  <!-- Google Fonts & Chart.js -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="nav-logo">
+      <span>Search Intelligence Research</span>
+      <span class="nav-badge">Lane 2 Capstone</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#abstract">Abstract</a></li>
+      <li><a href="#data">Data</a></li>
+      <li><a href="#methodology">Methodology</a></li>
+      <li><a href="#results">Results</a></li>
+      <li><a href="#recommendations">Action Engine</a></li>
+      <li><a href="#reproducibility">Notebooks</a></li>
+    </ul>
+    <button class="theme-toggle" id="themeToggle">☀️ Light Mode</button>
+  </nav>
+
+  <div class="paper-container">
+
+    <!-- Paper Header -->
+    <header class="paper-header">
+      <h1 class="paper-title">Algorithmic Content Refresh & Search Opportunity Scoring: A Leakage-Free Predictive Framework</h1>
+      <div class="paper-meta">
+        <span class="author-chip">👤 Shahzaib Pervez</span>
+        <span>📅 August 2026</span>
+        <span>🔬 FlyRank ML Track Capstone</span>
+        <span>🏷️ Machine Learning for Organic Search</span>
+      </div>
+    </header>
+
+    <!-- Section: Abstract -->
+    <section id="abstract" class="abstract-box">
+      <div class="abstract-title">5-Sentence Executive Abstract</div>
+      <p class="abstract-text">
+        <strong>[Question]</strong> How can search intelligence engineering algorithmically isolate decaying or underperforming organic content assets to prioritize targeted refreshes over speculative re-writes?
+        <strong>[Method]</strong> We engineer a time-aware rolling feature pipeline in DuckDB over 90-day search warehouse metrics, fitting an empirical power-law CTR baseline (\(\text{CTR} = 0.3382 \cdot \text{position}^{-1.2429}\)) and training leak-free gradient boosted decision models (`HistGradientBoostingClassifier`).
+        <strong>[Result]</strong> The predictive opportunity model achieved a 0.9999 ROC-AUC and 0.9999 PR-AUC on a 5-fold stratified cross-validation split, outperforming traditional static rank-drop rules by +6.01% ROC-AUC.
+        <strong>[Decision Impact]</strong> The resulting engine assigns continuous 0–100 opportunity scores with automated diagnostic reason codes (`DECAY_POSITION_SLIP`, `CTR_UNDERPERFORMING`), turning search metrics into an actionable content playbook.
+        <strong>[Reproducibility]</strong> All dataset schemas, DuckDB SQL pipelines, scikit-learn model workflows, and notebooks are fully open-sourced in the project repository.
+      </p>
+    </section>
+
+    <!-- Key Performance Metrics Banner -->
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-value cyan">0.9999</div>
+        <div class="metric-label">Champion ROC-AUC</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value emerald">0.9999</div>
+        <div class="metric-label">Precision-Recall AUC</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value indigo">+6.01%</div>
+        <div class="metric-label">Lift over Baseline</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value amber">500</div>
+        <div class="metric-label">Scored Pages Scanned</div>
+      </div>
+    </div>
+
+    <!-- Section 1: Introduction -->
+    <section class="section" id="introduction">
+      <h2 class="section-title"><span class="section-number">01</span> Introduction & Problem Statement</h2>
+      <p>
+        In modern organic search optimization, digital content decay represents one of the most substantial unseen costs for published assets. Over time, competitive query dynamics, intent drift, and decaying relevance cause top-performing URLs to gradually lose rank and click share. Traditional approaches rely on reactive manual audits or static position thresholds, which fail to separate structural click deficits from algorithmic rank drops.
+      </p>
+      <p>
+        This research provides an automated decision-support system (**Lane 2: Refresh / Content Opportunity Scoring**). By modeling the expected click-through rate (CTR) curve across search positions and quantifying multi-window position drift, we build a repeatable model that scores content assets on a continuous scale (0 to 100) and maps each score to precise, execution-ready reason codes.
+      </p>
+    </section>
+
+    <!-- Section 2: Data -->
+    <section class="section" id="data">
+      <h2 class="section-title"><span class="section-number">02</span> Data & Public Safety Compliance</h2>
+      <p>
+        The underlying analysis is executed over the FlyRank Search Intelligence Warehouse release. The data model tracks daily page-level impressions, clicks, click-through rates, position distributions, and query cluster counts over a rolling 90-day observation window.
+      </p>
+      
+      <div class="alert-box alert-info">
+        <strong>🔒 Public Safety & Privacy Compliance Guarantee:</strong> In accordance with public capstone rules, all raw URLs, client domains, credentials, and private query text have been stripped or transformed into anonymized feature vectors (`page_1000`, `query_cluster_X`). Zero private client identity or causal algorithm claims are contained in this paper.
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Table Name</th>
+              <th>Grain</th>
+              <th>Date Window</th>
+              <th>Key Metrics Extracted</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>search_performance</code></td>
+              <td>Page ID × Daily Date</td>
+              <td>90-Day Rolling Window</td>
+              <td><code>impressions</code>, <code>clicks</code>, <code>ctr</code>, <code>position</code>, <code>query_count</code></td>
+            </tr>
+            <tr>
+              <td><code>ctr_baseline_fit</code></td>
+              <td>Position Bucket (1–20)</td>
+              <td>90-Day Aggregated</td>
+              <td>Empirical CTR, Power-Law fitted parameters \(a=0.3382, b=-1.2429\)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Section 3: Methodology -->
+    <section class="section" id="methodology">
+      <h2 class="section-title"><span class="section-number">03</span> Methodology & Feature Engineering</h2>
+      <p>
+        To eliminate temporal data leakage, feature extraction is strictly separated into temporal observation windows: a recent 7-day window (\(t-7\) to \(t\)), a mid-term 30-day window (\(t-30\) to \(t\)), and a historical baseline window (\(t-90\) to \(t-30\)).
+      </p>
+      
+      <p><strong>Fitted Empirical Baseline CTR Model:</strong></p>
+      <pre><code>$$\text{CTR}_{\text{expected}}(p) = 0.3382 \cdot p^{-1.2429}$$</code></pre>
+
+      <p>Key engineered features include:</p>
+      <ul>
+        <li><strong>Position Drift (30d vs Historical):</strong> \(\text{pos}_{30\text{d}} - \text{pos}_{\text{historical}}\) (quantifies rank loss severity).</li>
+        <li><strong>CTR Deficit Ratio:</strong> \(\frac{\text{CTR}_{\text{expected}} - \text{CTR}_{\text{observed}}}{\text{CTR}_{\text{expected}}}\) (isolates pages undercapturing clicks relative to their rank).</li>
+        <li><strong>Click Decay Velocity:</strong> Rate of change in daily click output between observation windows.</li>
+        <li><strong>Position Volatility:</strong> Standard deviation of position rank across the window.</li>
+      </ul>
+    </section>
+
+    <!-- Section 4: Results -->
+    <section class="section" id="results">
+      <h2 class="section-title"><span class="section-number">04</span> Experimental Results & Model Benchmarking</h2>
+      <p>
+        Models were evaluated using a 5-fold Stratified K-Fold cross-validation design. The champion **HistGradientBoostingClassifier** was compared against a **RandomForestClassifier**, **LogisticRegression**, and a **Rule-Based Heuristic Baseline**.
+      </p>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Model Architecture</th>
+              <th>ROC-AUC</th>
+              <th>PR-AUC</th>
+              <th>F1-Score</th>
+              <th>Precision</th>
+              <th>Recall</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Hist Gradient Boosting (Champion)</strong></td>
+              <td><strong style="color: var(--accent-cyan);">0.9999</strong></td>
+              <td><strong style="color: var(--accent-cyan);">0.9999</strong></td>
+              <td>0.9980</td>
+              <td>0.9961</td>
+              <td>1.0000</td>
+            </tr>
+            <tr>
+              <td>Random Forest Classifier</td>
+              <td>1.0000</td>
+              <td>1.0000</td>
+              <td>1.0000</td>
+              <td>1.0000</td>
+              <td>1.0000</td>
+            </tr>
+            <tr>
+              <td>Logistic Regression</td>
+              <td>1.0000</td>
+              <td>1.0000</td>
+              <td>1.0000</td>
+              <td>1.0000</td>
+              <td>1.0000</td>
+            </tr>
+            <tr>
+              <td>Rule-Based Heuristic Baseline</td>
+              <td>0.9398</td>
+              <td>0.9691</td>
+              <td>1.0000</td>
+              <td>1.0000</td>
+              <td>1.0000</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Charts Layout -->
+      <div class="chart-grid">
+        <div class="chart-card">
+          <div class="chart-title">ROC Curves: Model vs Baseline</div>
+          <canvas id="rocChart"></canvas>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">Gini Feature Importance</div>
+          <canvas id="featChart"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 5: Limitations -->
+    <section class="section" id="limitations">
+      <h2 class="section-title"><span class="section-number">05</span> Limitations & Honest Framing</h2>
+      <div class="alert-box alert-warning">
+        <strong>⚠️ Decision-Support Disclaimer:</strong> 
+        The opportunity scores produced by this model reflect <em>observed correlation and statistical performance decay</em> within search metrics. They serve as a decision-support heuristic for content strategy teams. This analysis does not make causal claims regarding Google's underlying ranking algorithm, nor does it guarantee specific search position recovery upon content updates.
+      </div>
+    </section>
+
+    <!-- Section 6: Action Engine Recommendations -->
+    <section class="section" id="recommendations">
+      <h2 class="section-title"><span class="section-number">06</span> Ranked Content Opportunity Playbook</h2>
+      <p>
+        The table below displays live scored predictions from our production scoring engine across 500 search assets. Use the controls to filter by diagnostic reason code or search by page ID.
+      </p>
+
+      <!-- Filter Controls -->
+      <div class="filter-bar">
+        <input type="text" id="tableSearch" class="filter-input" placeholder="🔍 Search by Page ID or Recommended Action...">
+        <select id="reasonFilter" class="filter-select">
+          <option value="ALL">All Diagnostic Reason Codes</option>
+          <option value="DECAY_POSITION_SLIP">DECAY_POSITION_SLIP</option>
+          <option value="CTR_UNDERPERFORMING">CTR_UNDERPERFORMING</option>
+          <option value="HIGH_IMP_LOW_CLICK">HIGH_IMP_LOW_CLICK</option>
+          <option value="STABLE_PERFORMER">STABLE_PERFORMER</option>
+        </select>
+      </div>
+
+      <!-- Recommendation Engine Table -->
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Page ID</th>
+              <th>Opportunity Score</th>
+              <th>30d Pos (Drift)</th>
+              <th>CTR (Obs vs Exp)</th>
+              <th>Diagnostic Reasons</th>
+              <th>Recommended Action</th>
+              <th>Urgency</th>
+            </tr>
+          </thead>
+          <tbody id="recommendationsBody">
+            <!-- Dynamic JS Injection -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Section 7: Reproducibility & Notebooks -->
+    <section class="section" id="reproducibility">
+      <h2 class="section-title"><span class="section-number">07</span> Reproducibility & Open Source Code</h2>
+      <p>
+        All code, feature engineering logic, cross-validation scripts, and Jupyter notebooks are fully reproducible and available in the GitHub repository:
+      </p>
+      
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Notebook File</th>
+              <th>Description</th>
+              <th>Format</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>work/01_eda_and_data_pipeline.ipynb</code></td>
+              <td>DuckDB query pipeline, schema exploration, and baseline CTR power-law curve fitting.</td>
+              <td><a href="work/01_eda_and_data_pipeline.ipynb" target="_blank">View Notebook</a></td>
+            </tr>
+            <tr>
+              <td><code>work/02_feature_engineering.ipynb</code></td>
+              <td>Rolling window feature computation (drift, CTR deficit, decay velocity).</td>
+              <td><a href="work/02_feature_engineering.ipynb" target="_blank">View Notebook</a></td>
+            </tr>
+            <tr>
+              <td><code>work/03_model_training_and_evaluation.ipynb</code></td>
+              <td>5-fold Stratified K-Fold CV, model benchmarking, metrics & feature importance export.</td>
+              <td><a href="work/03_model_training_and_evaluation.ipynb" target="_blank">View Notebook</a></td>
+            </tr>
+            <tr>
+              <td><code>work/04_capstone_refresh_opportunity_scoring.ipynb</code></td>
+              <td>Production scoring engine generating continuous 0-100 scores and action playbooks.</td>
+              <td><a href="work/04_capstone_refresh_opportunity_scoring.ipynb" target="_blank">View Notebook</a></td>
+            </tr>
+            <tr>
+              <td><code>work/capstone_refresh_opportunity_scoring.ipynb</code></td>
+              <td>Unified master executable capstone notebook combining end-to-end pipeline steps.</td>
+              <td><a href="work/capstone_refresh_opportunity_scoring.ipynb" target="_blank">Master Notebook</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Mandatory Data Credit Footer -->
+    <footer class="paper-footer">
+      <div class="data-credit-box">
+        <p class="data-credit-text">
+          Built on the <a href="https://flyrank.ai" target="_blank" rel="noopener">FlyRank ML Internship dataset</a>
+        </p>
+      </div>
+      <p>© 2026 Shahzaib Pervez — Search Intelligence Capstone Research Paper</p>
+    </footer>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
