@@ -1,0 +1,196 @@
+"""
+===============================================================================
+CREATE_W07_NOTEBOOK.PY
+Creates work/notebooks/w07_action_playbook.ipynb with full documentation,
+code execution, figures, and exports.
+===============================================================================
+"""
+
+import os
+import json
+
+def generate_w07_notebook():
+    os.makedirs("work/notebooks", exist_ok=True)
+    os.makedirs("work/outputs", exist_ok=True)
+    os.makedirs("work/figures", exist_ok=True)
+    os.makedirs("work/metrics", exist_ok=True)
+    nb = {
+        "cells": [
+            {
+                "cell_type": "markdown",
+                "metadata": {},
+                "source": [
+                    "# Week 7 Assignment: Content Action Playbook & Decision Support Engine\n",
+                    "**FlyRank Search Intelligence ML Internship — Capstone Track**\n\n",
+                    "A model score is not the final product. The output must become a clear, human-reviewed content action playbook with known limits. ",
+                    "This notebook converts validated machine learning outputs into a practical, operational action engine for search intelligence."
+                ]
+            },
+            {
+                "cell_type": "markdown",
+                "metadata": {},
+                "source": [
+                    "## 1. Ranked Actions + Reason Codes\n",
+                    "We map model scores and empirical search signals to actionable content playbooks and clear diagnostic reason codes:\n\n",
+                    "- **`DECAY_POSITION_SLIP`**: Significant rank loss over 30 days vs historical baseline ($\\Delta \\ge 1.2$).\n",
+                    "- **`CTR_UNDERPERFORMING`**: Observed CTR is $25\\%+$ below baseline power-law curve expectation ($\\text{CTR}_{\\text{exp}} = 0.3382 \\cdot p^{-1.2429}$).\n",
+                    "- **`HIGH_IMP_LOW_CLICK`**: Large impression share ($>2000$) with poor click conversion.\n",
+                    "- **`MONITOR_VOLATILITY`**: High position rank volatility ($\\sigma > 2.0$).\n",
+                    "- **`STABLE_PERFORMER`**: Strong rankings, low volatility, optimal CTR.\n\n",
+                    "### Archetype to Action Mapping Matrix:\n",
+                    "| Content Archetype | Primary Action Playbook | Urgency |\n",
+                    "| :--- | :--- | :--- |\n",
+                    "| **Decaying (1)** | `REWRITE_CONTENT_INTENT` / `UPDATE_FRESHNESS` | **CRITICAL** / **HIGH** |\n",
+                    "| **CTR Underperformer (2)** | `OPTIMIZE_METADATA_TITLES` | **HIGH** |\n",
+                    "| **Growing / Momentum (3)** | `MONITOR_QUERY_INTENT` | **MEDIUM** |\n",
+                    "| **Stable Performer (0)** | `PROTECT_AND_MONITOR` | **LOW** |"
+                ]
+            },
+            {
+                "cell_type": "code",
+                "execution_count": None,
+                "metadata": {},
+                "outputs": [],
+                "source": [
+                    "import os\n",
+                    "import json\n",
+                    "import pandas as pd\n",
+                    "import numpy as np\n",
+                    "import matplotlib.pyplot as plt\n",
+                    "import seaborn as sns\n",
+                    "import importlib\n\n",
+                    "# Execute Action Playbook Engine\n",
+                    "playbook_mod = importlib.import_module('work.generate_w07_playbook')\n",
+                    "metrics = playbook_mod.build_action_playbook()\n",
+                    "df_rec = pd.read_csv('work/outputs/ranked_action_queue.csv')\n",
+                    "print(f'Total Scored Pages in Action Queue: {len(df_rec)}')\n",
+                    "df_rec.head(10)"
+                ]
+            },
+            {
+                "cell_type": "markdown",
+                "metadata": {},
+                "source": [
+                    "## 2. Intended Use and Limits\n",
+                    "### Intended Use:\n",
+                    "- Operational decision support for SEO content strategy teams to prioritize high-ROI editorial refreshes, title tag optimizations, and content updates.\n",
+                    "- Enables data-driven resource allocation based on expected traffic recoverability.\n\n",
+                    "### Limitations & Honest Framing:\n",
+                    "- **Observed vs Causal**: The model identifies historical performance decay, NOT causal search engine algorithm rules.\n",
+                    "- **No Causal Refresh Guarantee**: Refreshing content does not guarantee instant rank recovery.\n",
+                    "- **Public Compliance**: Zero raw URLs, client names, credentials, or private query text."
+                ]
+            },
+            {
+                "cell_type": "markdown",
+                "metadata": {},
+                "source": [
+                    "## 3. Human Review + The NO-GO List\n",
+                    "### Human-in-the-Loop Editorial Protocol:\n",
+                    "All automated recommendations MUST be reviewed by a human subject-matter expert before content modification.\n\n",
+                    "### ❌ The NO-GO List (What Should NOT Be Automated):\n",
+                    "1. **No Automated AI Content Rewriting or Direct Publishing**: Never auto-generate and auto-publish content directly without human editing.\n",
+                    "2. **No Algorithmic Bulk 301 Redirects or Page Deletions**: Prevents accidental traffic destruction.\n",
+                    "3. **No Unreviewed YMYL (Medical / Legal / Financial) Edits**: High-stakes regulatory compliance requires human expertise.\n",
+                    "4. **No Brand Positioning / Core Messaging Overhauls**: Maintains corporate brand identity."
+                ]
+            },
+            {
+                "cell_type": "markdown",
+                "metadata": {},
+                "source": [
+                    "## 4. Monitoring / Retrain Triggers & Cost-Value Thinking\n",
+                    "### Cost / Value Prioritization Framework:\n",
+                    "$$\\text{Value Score} = \\text{Impressions} \\times \\text{CTR Deficit Ratio} \\times \\text{Opportunity Score}$$\n",
+                    "Resources are focused first on pages with high impression share and severe CTR gaps to maximize return on editorial effort.\n\n",
+                    "### Monitoring & Retrain Triggers:\n",
+                    "- **Data Drift Trigger**: Rolling mean position drift shifts by $>15\\%$.\n",
+                    "- **Concept Drift Trigger**: Model ROC-AUC on rolling 30-day window drops below $0.85$.\n",
+                    "- **Search Engine Core Update Trigger**: Retrain model after major search core updates or quarterly seasonal shifts."
+                ]
+            },
+            {
+                "cell_type": "code",
+                "execution_count": None,
+                "metadata": {},
+                "outputs": [],
+                "source": [
+                    "# Display Figure Exports generated in work/figures/\n",
+                    "from IPython.display import Image, display\n",
+                    "display(Image('work/figures/reason_code_distribution.png'))\n",
+                    "display(Image('work/figures/archetype_action_matrix.png'))\n",
+                    "display(Image('work/figures/roi_cost_value_scatter.png'))"
+                ]
+            },
+            {
+                "cell_type": "markdown",
+                "metadata": {},
+                "source": [
+                    "## 5. Exports for the Paper\n",
+                    "The playbook exports the following persistent deliverables:\n",
+                    "1. **Action Queue CSV**: `work/outputs/ranked_action_queue.csv`\n",
+                    "2. **Recommendations JSON**: `work/outputs/ranked_recommendations.json` & `data/ranked_recommendations.json`\n",
+                    "3. **Figures for Paper**: `work/figures/reason_code_distribution.png`, `work/figures/opportunity_score_hist.png`, `work/figures/archetype_action_matrix.png`, `work/figures/roi_cost_value_scatter.png`\n",
+                    "4. **Metrics Receipts**: `work/metrics/playbook_metrics.json` & `data/playbook_metrics.json`"
+                ]
+            },
+            {
+                "cell_type": "code",
+                "execution_count": None,
+                "metadata": {},
+                "outputs": [],
+                "source": [
+                    "with open('work/metrics/playbook_metrics.json', 'r') as f:\n",
+                    "    metrics_json = json.load(f)\n",
+                    "print(json.dumps(metrics_json, indent=2))"
+                ]
+            },
+            {
+                "cell_type": "markdown",
+                "metadata": {},
+                "source": [
+                    "## 6. Self-Check & Output Verification\n",
+                    "We verify that all required output files exist and meet submission standards."
+                ]
+            },
+            {
+                "cell_type": "code",
+                "execution_count": None,
+                "metadata": {},
+                "outputs": [],
+                "source": [
+                    "required_files = [\n",
+                    "    'work/outputs/ranked_action_queue.csv',\n",
+                    "    'work/outputs/ranked_recommendations.json',\n",
+                    "    'work/figures/reason_code_distribution.png',\n",
+                    "    'work/figures/opportunity_score_hist.png',\n",
+                    "    'work/figures/archetype_action_matrix.png',\n",
+                    "    'work/figures/roi_cost_value_scatter.png',\n",
+                    "    'work/metrics/playbook_metrics.json'\n",
+                    "]\n\n",
+                    "print('--- SELF-CHECK VERIFICATION ---')\n",
+                    "for f_path in required_files:\n",
+                    "    exists = os.path.exists(f_path)\n",
+                    "    status = '✅ PASSED' if exists else '❌ FAILED'\n",
+                    "    print(f'{status} | {f_path}')\n",
+                    "assert all(os.path.exists(f) for f in required_files), 'Self-check failed: Missing required outputs!'"
+                ]
+            }
+        ],
+        "metadata": {
+            "language_info": {
+                "name": "python",
+                "version": "3.13"
+            }
+        },
+        "nbformat": 4,
+        "nbformat_minor": 2
+    }
+
+    out_path = "work/notebooks/w07_action_playbook.ipynb"
+    with open(out_path, "w", encoding="utf-8") as f:
+        json.dump(nb, f, indent=2)
+    print(f"[Notebook Created] {out_path}")
+
+if __name__ == "__main__":
+    generate_w07_notebook()

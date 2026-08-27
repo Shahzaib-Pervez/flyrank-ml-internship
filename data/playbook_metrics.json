@@ -1,0 +1,25 @@
+{
+  "total_pages_scored": 500,
+  "critical_action_pages": 37,
+  "high_action_pages": 219,
+  "medium_action_pages": 0,
+  "low_action_pages": 244,
+  "total_estimated_recoverable_clicks_monthly": 2223495,
+  "reason_code_counts": {
+    "DECAY_POSITION_SLIP": 127,
+    "CTR_UNDERPERFORMING": 165,
+    "HIGH_IMP_LOW_CLICK": 201,
+    "MONITOR_VOLATILITY": 1,
+    "STABLE_PERFORMER": 244
+  },
+  "export_paths": {
+    "queue_csv": "work/outputs/ranked_action_queue.csv",
+    "recommendations_json": "work/outputs/ranked_recommendations.json",
+    "figures": [
+      "work/figures/reason_code_distribution.png",
+      "work/figures/opportunity_score_hist.png",
+      "work/figures/archetype_action_matrix.png",
+      "work/figures/roi_cost_value_scatter.png"
+    ]
+  }
+}
